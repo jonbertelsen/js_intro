@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            th, td { border-bottom: solid 1px silver; padding: 5px; }
+            table {border-collapse: collapse;}
+        </style>
+    </head>
+    <body>
+        <h1>Fetch demo</h1>
+        <form>
+            <input type="text" id="singlePersonRecordInput"/>
+            <button id="singlePersonRecordInputBtn">Get user</button>
+            <button id="getAllPersonsBtn">Get all</button>
+        </form>
+        <p id="singlePersonRecord"></p>
+        <p id="allPersons"></p>
+        
+        <script>
+            
+            function renderObjectToRecord(myObj){
+                result = '';
+                result += 'Name: ' +myObj.name + '<br/>';
+                result += 'Phone: ' + myObj.phone + '<br/><br/>';
+                result += '<strong>Address: </strong><br/>';
+                result += 'Street: ' + myObj.address.street + '<br/>';
+                result += 'City: ' + myObj.address.city + '<br/>';
+                result += 'Zip: ' + myObj.address.zipcode + '<br/>';
+                result += 'Geo (lat, lng): (' + myObj.address.geo.lat + ', ' + myObj.address.geo.lng + ')<br/>';
+                return result;
+            }
+            
+            function getTableHeader(){
+                return '<thead><th>Name</th><th>Phone</th></thead>';
+            }
+            
+            function getTableRow(myObj){
+                return `<tr><td>${myObj.name}</td><td>${myObj.phone}</td></tr>`;
+            }
+            
+            function fetchSinglePerson(id){
+                let url = 'https://jsonplaceholder.typicode.com/users/' + id;
+                fetch(url)
+                    .then(res => res.json()) //in flow1, just do it
+                    .then(data => {
+                        let singlePersonRecord = document.getElementById("singlePersonRecord");
+                        singlePersonRecord.innerHTML = renderObjectToRecord(data);         
+                    });
+            }
+            
+            function fetchAllPersons(){
+                let url = 'https://jsonplaceholder.typicode.com/users/';
+                fetch(url)
+                    .then(res => res.json()) //in flow1, just do it
+                    .then(data => {
+                        let allPersons = document.getElementById("allPersons");
+                        let result = '';
+                        data.forEach((x) => {result += getTableRow(x)});
+                        allPersons.innerHTML = `<table>${getTableHeader()}${result}</table>`;
+                    });
+            }
+            
+            
+            let singlePersonRecordInputBtn = document.getElementById("singlePersonRecordInputBtn");
+            singlePersonRecordInputBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                let singlePersonRecordInput = document.getElementById("singlePersonRecordInput");
+                fetchSinglePerson(singlePersonRecordInput.value);
+            });
+            
+            let getAllPersonsBtn = document.getElementById("getAllPersonsBtn");
+            getAllPersonsBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                fetchAllPersons();
+            });
+ 
+        </script>
+    </body>
+</html>

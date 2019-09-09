@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <style>
+        .myDiv {width: 125px; height: 25px;background-color:yellow; margin:1px;}
+        
+    </style>
+    <body>
+        <div id="1">Første linie</div>
+        <div id="2">Anden linie</div>
+        <div id="3">Tredie linie</div>
+        
+        <button id="btn">Tryk her</button>
+        
+        <div id="4" class="myDiv">1</div>
+        <div id="5" class="myDiv">2</div>
+        
+        <div id="outer">
+            <div id="6">6</div>
+            <div id="7">7</div>
+            <div id="8">8</div>
+            <div id="9">9</div>
+            <div id="10">10</div>
+            <div id="11">11</div>
+            <div id="12">12</div>
+            <div id="13">13</div>
+            <div id="14">14</div>
+            <div id="15">15</div>
+            
+            <p id="outputtext"><p>
+        </div>
+        
+        <script>
+            var ids = document.getElementsByTagName("div");
+            for (var i = 0; i < ids.length; i++ ){
+                ids[i].style.backgroundColor = "red";
+            }
+            
+            function changeColors () {
+                document.getElementById("1").style.backgroundColor = "red";
+                document.getElementById("2").style.backgroundColor = "yellow";
+                document.getElementById("3").style.backgroundColor = "green";
+            }
+            
+            var btn = document.getElementById("btn");
+            
+            btn.addEventListener('click', (event) => {
+                event.preventDefault();
+                changeColors();
+            });
+            
+            x1 = document.getElementById("4");
+            x1.onclick = (x=>x1.innerHTML = 'Hi from: ' + x1.id);
+            
+            x2 = document.getElementById("5");
+            x2.onclick = (x=>x2.innerHTML = 'Hi from: ' + x2.id);
+            
+            outerDiv = document.getElementById("outer");
+            outerDiv.addEventListener('click', (event) => {
+                //console.log(this)
+                document.getElementById("outputtext").innerHTML = event.target.getAttribute('id')
+            });
+            
+            
+        </script>
+        
+    </body>
+</html>
